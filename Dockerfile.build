@@ -1,0 +1,26 @@
+FROM ubuntu@sha256:534baea6a22c03a63003dbc8dbe78fe34bc0d7e595d9a9dc9834884ff530eb55
+
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        build-essential ca-certificates cmake \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src
+COPY . .
+
+ARG LLAMA_TARGETS=llama-bench
+
+RUN cmake -S . -B build \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DBUILD_SHARED_LIBS=OFF \
+        -DGGML_NATIVE=OFF \
+        -DGGML_CUDA=OFF \
+        -DGGML_METAL=OFF \
+        -DGGML_VULKAN=OFF \
+        -DGGML_OPENCL=OFF \
+        -DGGML_BLAS=OFF \
+        -DLLAMA_CURL=OFF \
+    && cmake --build build --target ${LLAMA_TARGETS} --parallel 2
+
+ENV LLAMA_ARG_N_GPU_LAYERS=0
+ENTRYPOINT ["/src/build/bin/llama-bench"]

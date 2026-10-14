@@ -1,0 +1,11 @@
+# Large, reproducible inputs and disposable upstream checkouts
+models/
+upstream/
+baseline/
+pr-parent/
+pr/
+
+# Local platform noise
+.DS_Store
+__pycache__/
+*.pyc

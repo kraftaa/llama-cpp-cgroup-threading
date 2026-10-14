@@ -1,0 +1,28 @@
+META image=llama-cgroup:pr cpus=max threads_requested=2 cgroupns=private cpuset=0 reps=5
+META kernel=6.8.0-50-generic arch=aarch64 nproc=1 cgroup_rel=/ resolved_cgroup=/sys/fs/cgroup/
+META Cpus_allowed_list:	0
+META Mems_allowed_list:	0
+META root_cpu_max=max 100000
+META effective_cpu_max=max 100000
+META effective_cpuset=0
+STAT_BEFORE usage_usec 17353
+STAT_BEFORE user_usec 7306
+STAT_BEFORE system_usec 10046
+STAT_BEFORE core_sched.force_idle_usec 0
+STAT_BEFORE nr_periods 0
+STAT_BEFORE nr_throttled 0
+STAT_BEFORE throttled_usec 0
+STAT_BEFORE nr_bursts 0
+STAT_BEFORE burst_usec 0
+{"build_commit": "unknown", "build_number": 0, "cpu_info": "CPU", "gpu_info": "", "backends": "CPU", "model_filename": "/models/qwen2.5-0.5b-instruct-q4_k_m.gguf", "model_type": "qwen2 1B Q4_K - Medium", "model_size": 485452288, "model_n_params": 630167424, "n_batch": 2048, "n_ubatch": 512, "n_threads": 2, "cpu_mask": "0x0", "cpu_strict": false, "poll": 50, "type_k": "f16", "type_v": "f16", "n_gpu_layers": 0, "n_cpu_moe": 0, "split_mode": "layer", "main_gpu": 0, "no_kv_offload": false, "flash_attn": -1, "devices": "auto", "tensor_split": "0.00", "tensor_buft_overrides": "none", "load_mode": "auto", "lazy_mode": "auto", "embeddings": false, "no_op_offload": 0, "no_host": false, "repack": true, "fit_target": 0, "fit_min_ctx": 0, "n_prompt": 128, "n_gen": 0, "n_depth": 0, "test_time": "2026-10-14T00:22:56Z", "avg_ns": 2983596386, "stddev_ns": 7820765, "avg_ts": 42.901482, "stddev_ts": 0.112734, "samples_ns": [ 2990645794, 2988199288, 2984723478, 2983946041, 2970467331 ],"samples_ts": [ 42.8001, 42.8352, 42.885, 42.8962, 43.0909 ]}
+{"build_commit": "unknown", "build_number": 0, "cpu_info": "CPU", "gpu_info": "", "backends": "CPU", "model_filename": "/models/qwen2.5-0.5b-instruct-q4_k_m.gguf", "model_type": "qwen2 1B Q4_K - Medium", "model_size": 485452288, "model_n_params": 630167424, "n_batch": 2048, "n_ubatch": 512, "n_threads": 2, "cpu_mask": "0x0", "cpu_strict": false, "poll": 50, "type_k": "f16", "type_v": "f16", "n_gpu_layers": 0, "n_cpu_moe": 0, "split_mode": "layer", "main_gpu": 0, "no_kv_offload": false, "flash_attn": -1, "devices": "auto", "tensor_split": "0.00", "tensor_buft_overrides": "none", "load_mode": "auto", "lazy_mode": "auto", "embeddings": false, "no_op_offload": 0, "no_host": false, "repack": true, "fit_target": 0, "fit_min_ctx": 0, "n_prompt": 0, "n_gen": 64, "n_depth": 0, "test_time": "2026-10-14T00:23:14Z", "avg_ns": 2099705131, "stddev_ns": 6202658, "avg_ts": 30.480683, "stddev_ts": 0.089828, "samples_ns": [ 2100428699, 2097115376, 2109825952, 2093325678, 2097829954 ],"samples_ts": [ 30.47, 30.5181, 30.3343, 30.5734, 30.5077 ]}
+META wall_ns=30856409506 exit_status=0
+STAT_AFTER usage_usec 29122099
+STAT_AFTER user_usec 28407514
+STAT_AFTER system_usec 714585
+STAT_AFTER core_sched.force_idle_usec 0
+STAT_AFTER nr_periods 0
+STAT_AFTER nr_throttled 0
+STAT_AFTER throttled_usec 0
+STAT_AFTER nr_bursts 0
+STAT_AFTER burst_usec 0

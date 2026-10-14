@@ -1,6 +1,6 @@
 # Upstream reconnaissance
 
-Checked: 2026-10-13
+Checked: 2026-10-14
 
 ## Status and pinned revisions
 
@@ -9,6 +9,10 @@ Checked: 2026-10-13
 - The PR has no review comments or approvals. The only reported check is the successful PR labeler; no build or test result is attached.
 - PR #30263 is a closed earlier version of the same change. A repository search found no merged competing cgroup-thread fix.
 - Upstream `master` was `fcac19079f3f2985fe74ed845f0880e7e9a8030a` when cloned.
+
+The live status was rechecked on 2026-10-14. The issue and PR are still open,
+the PR head is unchanged, there are still no reviews, and the labeler remains
+its only reported check.
 
 ## Code-path findings
 

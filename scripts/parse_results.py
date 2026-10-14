@@ -3,6 +3,7 @@
 
 import csv
 import json
+import os
 import shlex
 import statistics
 from collections import defaultdict
@@ -10,9 +11,10 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
-RAW = ROOT / "results" / "raw"
-RUNS = ROOT / "results" / "runs.csv"
-SUMMARY = ROOT / "results" / "summary.csv"
+RESULTS = Path(os.environ.get("RESULTS_DIR", ROOT / "results"))
+RAW = RESULTS / "raw"
+RUNS = RESULTS / "runs.csv"
+SUMMARY = RESULTS / "summary.csv"
 
 COMMITS = {
     "llama-cgroup:issue-baseline": "11fe02151f79c41d0d4af7da708755d73b9c0da6",

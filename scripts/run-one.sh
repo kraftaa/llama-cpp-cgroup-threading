@@ -15,14 +15,18 @@ cpuset=${5:-all}
 reps=${REPS:-5}
 
 root_dir=$(cd "$(dirname "$0")/.." && pwd)
-model="$root_dir/models/qwen2.5-0.5b-instruct-q4_k_m.gguf"
-raw_dir="$root_dir/results/raw"
+model=${MODEL_PATH:-"$root_dir/models/qwen2.5-0.5b-instruct-q4_k_m.gguf"}
+results_dir=${RESULTS_DIR:-"$root_dir/results"}
+raw_dir="$results_dir/raw"
 mkdir -p "$raw_dir"
 
 if [[ ! -f "$model" ]]; then
     echo "missing model: $model" >&2
     exit 1
 fi
+
+model_dir=$(cd "$(dirname "$model")" && pwd)
+model_file=$(basename "$model")
 
 safe_image=${image//[:\/]/-}
 run_id="${safe_image}__cpu-${cpus}__threads-${threads}__ns-${cgroupns}__set-${cpuset}"
@@ -40,7 +44,7 @@ fi
 if [[ "$cpuset" != all ]]; then
     docker_args+=(--cpuset-cpus="$cpuset")
 fi
-docker_args+=(-v "$root_dir/models:/models:ro" --entrypoint /bin/sh "$image" -c)
+docker_args+=(-v "$model_dir:/models:ro" --entrypoint /bin/sh "$image" -c)
 
 bench_args=""
 if [[ "$threads" != default ]]; then
@@ -59,7 +63,7 @@ if [ -f "$cg/cpu.max" ]; then echo "META effective_cpu_max=$(cat "$cg/cpu.max")"
 if [ -f "$cg/cpuset.cpus.effective" ]; then echo "META effective_cpuset=$(cat "$cg/cpuset.cpus.effective")"; fi
 cat "$cg/cpu.stat" | sed "s/^/STAT_BEFORE /"
 start=$(date +%s%N)
-/src/build/bin/llama-bench -m /models/qwen2.5-0.5b-instruct-q4_k_m.gguf -p 128 -n 64 -r "$6" -o jsonl -ngl 0 $7
+/src/build/bin/llama-bench -m "/models/$8" -p 128 -n 64 -r "$6" -o jsonl -ngl 0 $7
 rc=$?
 end=$(date +%s%N)
 echo "META wall_ns=$((end-start)) exit_status=$rc"
@@ -67,5 +71,5 @@ cat "$cg/cpu.stat" | sed "s/^/STAT_AFTER /"
 exit "$rc"'
 
 echo "running $run_id"
-"${docker_args[@]}" "$container_script" sh "$image" "$cpus" "$threads" "$cgroupns" "$cpuset" "$reps" "$bench_args" >"$log" 2>&1
+"${docker_args[@]}" "$container_script" sh "$image" "$cpus" "$threads" "$cgroupns" "$cpuset" "$reps" "$bench_args" "$model_file" >"$log" 2>&1
 echo "wrote $log"

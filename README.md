@@ -2,6 +2,25 @@
 
 This repository records an independent reproduction and review of [llama.cpp issue #30070](https://github.com/ggml-org/llama.cpp/issues/30070) and [PR #30267](https://github.com/ggml-org/llama.cpp/pull/30267). It deliberately uses upstream `llama-bench`; it does not introduce another benchmark tool.
 
+## Key result
+
+The proposed upstream fix correctly limits default threads for integral cgroup
+CPU quotas. At a fractional 1.5-CPU quota, however, integer division selects one
+thread and leaves measurable capacity unused.
+
+![llama.cpp throughput with one and two threads at a 1.5-CPU container limit](assets/llama-cpp-cgroup-1-5-cpu.png)
+
+Using two threads instead of one improved median prompt-processing throughput
+from 42.91 to 60.50 tokens/s (+41.0%) and generation throughput from 31.25 to
+38.59 tokens/s (+23.5%). A focused follow-up using ceiling division selected two
+threads at 1.5 CPUs while preserving the tested selections at 0.5, 1, and 2
+CPUs.
+
+The experiment contains 460 raw measurements across 46 CPU-only configurations.
+It ran in a two-vCPU Colima Linux VM, so the result demonstrates this
+fractional-quota edge case rather than universal CPU performance. The main fix
+belongs to the existing upstream PR; no upstream acceptance is claimed.
+
 Start with:
 
 - `research/final-report.md` — conclusion and recommendation

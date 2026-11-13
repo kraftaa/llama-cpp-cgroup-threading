@@ -35,11 +35,18 @@ The recommendation is **UPSTREAM FIX**: share the fractional-quota evidence and 
 
 ## Public Linux verification
 
-The `Linux cgroup reproduction` GitHub Actions workflow is intentionally
-manual-only. After the repository is public, open **Actions → Linux cgroup
-reproduction → Run workflow**. The default five repetitions build the pinned PR
-parent, PR, and fractional follow-up, download and checksum the pinned model,
-run a narrow CPU-only matrix, and upload raw logs plus `ci-verdict.md`.
+The independent [GitHub-hosted Linux verification run](https://github.com/kraftaa/llama-cpp-cgroup-threading/actions/runs/43515926992)
+completed successfully on 2026-11-13. On the four-vCPU x86 runner, the focused
+follow-up selected two threads at a 1.5-CPU quota and improved median throughput
+over the PR's one-thread default by 43.2% for prompt processing and 27.4% for
+token generation. All eight thread-selection checks passed. The run page
+contains a downloadable evidence artifact with the environment record, raw
+logs, normalized samples, summary, and stop/go verdict.
+
+The `Linux cgroup reproduction` workflow is intentionally manual-only. Its
+default five repetitions build the pinned PR parent, PR, and fractional
+follow-up, download and checksum the pinned model, run a narrow CPU-only matrix,
+and upload raw logs plus `ci-verdict.md`.
 
 Making the repository public does not itself start the workflow. Do not add a
 schedule or push trigger: this is a one-time independent evidence run, not a

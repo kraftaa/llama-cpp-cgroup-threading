@@ -38,6 +38,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "$RESULTS_DIR"
+          cgroup_rel=$(awk -F: '$1 == "0" { print $3 }' /proc/self/cgroup)
+          process_cgroup="/sys/fs/cgroup${cgroup_rel}"
           {
             uname -a
             lscpu
@@ -45,7 +47,17 @@ jobs:
             docker info
             findmnt -t cgroup,cgroup2
             cat /proc/self/cgroup
-            cat /sys/fs/cgroup/cpu.max
+            echo "resolved process cgroup: $process_cgroup"
+            if [[ -f /sys/fs/cgroup/cpu.max ]]; then
+              echo "root cpu.max: $(cat /sys/fs/cgroup/cpu.max)"
+            else
+              echo "root cpu.max: unavailable"
+            fi
+            if [[ -f "$process_cgroup/cpu.max" ]]; then
+              echo "process cpu.max: $(cat "$process_cgroup/cpu.max")"
+            else
+              echo "process cpu.max: unavailable"
+            fi
           } | tee "$RESULTS_DIR/runner-environment.txt"
           test "$(stat -fc %T /sys/fs/cgroup)" = cgroup2fs
 
